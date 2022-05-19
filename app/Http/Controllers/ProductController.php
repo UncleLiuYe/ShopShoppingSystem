@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function indexpage()
     {
-        return view("index", ["productlist" => Product::with("category_id")->get(), "categorylist" => Category::all()]);
+        return view("index", ["productlist" => Product::all(), "categorylist" => Category::all()]);
     }
 
     /**
@@ -22,6 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        return response()->view("admin.product.productlist", ["productlist" => Product::paginate(5)]);
     }
 
     /**
@@ -31,82 +32,114 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("product.add", ["categorylist" => Category::all()]);
+        return response()->view("admin.product.addproduct", ["categorylist" => Category::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $productService = new ProductService();
-        $coverpath = "";
-        if ($request->hasFile("cover") && $request->file("cover")->isValid()) {
-            $coverfilename = Uuid::uuid4() . "." . $request->file("cover")->getClientOriginalExtension();
-            $request->file("cover")->storeAs("/public/images", $coverfilename);
-            $coverpath = $coverfilename;
-        }
-        if ($productService->insertProduct(
-            $request->input("name"),
-            $coverpath,
-            $request->input("price"),
-            $request->input("short_depiction"),
-            $request->input("depiction"),
-            $request->input("stock"),
-            $request->input("category_id")
-        )) {
-            return "ok";
-        } else {
-            echo "fail";
+        try {
+            $productService = new ProductService();
+            $coverpath = "";
+            if ($request->hasFile("cover") && $request->file("cover")->isValid()) {
+                $coverfilename = Uuid::uuid4() . "." . $request->file("cover")->getClientOriginalExtension();
+                $request->file("cover")->storeAs("/public/images", $coverfilename);
+                $coverpath = $coverfilename;
+            }
+            if ($productService->insertProduct(
+                $request->input("name"),
+                $coverpath,
+                $request->input("price"),
+                $request->input("short_depiction"),
+                $request->input("depiction"),
+                $request->input("stock"),
+                $request->input("category_id")
+            )) {
+                return $this->writeJSAlert("添加成功！", route("product.index"));
+            } else {
+                return $this->writeJSAlert("添加失败！", route("product.index"));
+            }
+        } catch (\Exception $e) {
+            return $this->writeJSAlert("添加失败！", route("product.index"));
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return view("info", ["product" => Product::find($id), "categorylist" => Category::all()]);
+        return response()->view("info", ["product" => Product::find($id), "categorylist" => Category::all()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        return response()->view("admin.product.updateproduct", ["product" => Product::find($id), "categorylist" => Category::all()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $product = Product::find($id);
+            $product->name = $request->input("name");
+            $product->price = $request->input("price");
+            $product->short_depiction = $request->input("short_depiction");
+            $product->stock = $request->input("stock");
+            $product->category_id = $request->input("category_id");
+            if ($request->hasFile("cover") && $request->file("cover")->isValid()) {
+                $coverfilename = Uuid::uuid4() . "." . $request->file("cover")->getClientOriginalExtension();
+                $request->file("cover")->storeAs("/public/images", $coverfilename);
+                $product->cover = $coverfilename;
+            }
+            $product->depiction = $request->input("depiction");
+            if ($product->save()) {
+                return $this->writeJSAlert("更新成功！", route("product.index"));
+            } else {
+                return $this->writeJSAlert("更新失败！", route("product.index"));
+            }
+        } catch (\Exception $e) {
+            return $this->writeJSAlert("更新失败！", route("product.index"));
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        try {
+            if (Product::destroy($id) > 0) {
+                return $this->writeJSAlert("删除成功！", route("product.index"));
+            } else {
+                return $this->writeJSAlert("删除失败！", route("product.index"));
+            }
+        } catch (\Exception $e) {
+            return $this->writeJSAlert("删除失败！", route("product.index"));
+        }
     }
 
     public function uploadFile()
@@ -144,5 +177,10 @@ class ProductController extends Controller
                 "message" => $error
             ]
         ];
+    }
+
+    private function writeJSAlert($msg, $address)
+    {
+        return response("<script>alert('" . $msg . "');window.location.href='" . $address . "'</script>");
     }
 }

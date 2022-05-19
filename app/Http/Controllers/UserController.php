@@ -32,7 +32,7 @@ class UserController extends Controller
                 if (!is_null($user)) {
                     if ($user->isadmin == 1) {
                         request()->session()->push("admin", $user);
-                        return redirect("admin/index");
+                        return redirect(route("admin.index"));
                     }
                     request()->session()->push("user", $user);
                     return redirect("/");

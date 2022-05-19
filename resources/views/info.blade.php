@@ -54,44 +54,43 @@
 </head>
 
 <body>
-    @extends("nav")
-    @section("nav")
+@extends("nav")
+@section("nav")
     @parent
-    @endsection
-    <div class="container" style="margin-top: 77px;">
-        <div class="main">
-            <div class="left">
-                <img src="/storage/images/{{$product->cover}}" alt="" style="width:100%;height: 100%;">
-            </div>
-            <div class="right">
-                <div style="margin-left: 30px">
-                    <h2>{{$product->name}}</h2>
-                    <p>价格：<span style="color: red; font-size: 24px;">{{$product->price}}元</span></p>
-                    <p>{{$product->short_depiction}}</p>
-                    购买数量：
-                    <button style="width: 38px;" class="btn btn-outline-danger" onclick="incr()">+</button>&nbsp;&nbsp;
-                    <span id="count">0</span>&nbsp;&nbsp;
-                    <button style="width: 38px;" class="btn btn-outline-danger" onclick="decr()">-</button>
-                    <br />
-                    <br />
-                    <a class="btn btn-primary" href="#">加入购物车</a>
-                    <a class="btn btn-primary" href="#">购买</a>
-                    <br /><br />
-                    <span class="badge badge-danger">自营</span>
-                    <span class="badge badge-danger">厂商配送</span>
-                </div>
-            </div>
+@endsection
+<div class="container" style="margin-top: 77px;">
+    <div class="main">
+        <div class="left">
+            <img src="/storage/images/{{$product->cover}}" alt="" style="width:100%;height: 100%;">
         </div>
-        <hr />
-        <div class="mt-3">
-            {!! $product->depiction !!}
+        <div class="right">
+            <div style="margin-left: 30px">
+                <h2>{{$product->name}}</h2>
+                <p>价格：<span style="color: red; font-size: 24px;">{{$product->price}}元</span></p>
+                <p>{{$product->short_depiction}}</p>
+                购买数量：
+                <button style="width: 38px;" class="btn btn-outline-danger" onclick="incr()">+</button>&nbsp;&nbsp;
+                <span id="count">0</span>&nbsp;&nbsp;
+                <button style="width: 38px;" class="btn btn-outline-danger" onclick="decr()">-</button>
+                <br/>
+                <br/>
+                <a class="btn btn-primary" href="#">加入购物车</a>
+                <a class="btn btn-primary" href="#">购买</a>
+                <br/><br/>
+                <span class="badge badge-danger">自营</span>
+                <span class="badge badge-danger">厂商配送</span>
+            </div>
         </div>
     </div>
     <hr/>
-    @extends("footer")
-    @section("footer")
+    <div class="mt-3">
+        {!! $product->depiction !!}
+    </div>
+</div>
+<hr/>
+@extends("footer")
+@section("footer")
     @parent
-    @endsection
+@endsection
 </body>
-
 </html>

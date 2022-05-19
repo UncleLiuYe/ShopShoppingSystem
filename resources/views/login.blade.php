@@ -65,38 +65,39 @@
 </head>
 
 <body>
-    <form class="form-signin text-center" method="post" action="{{route("userLogin")}}">
-        @csrf
-        <img class="mb-4" src="https://icons.getbootstrap.com/assets/icons/cart.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
-        <label for="username" class="sr-only">用户名</label>
-        <input type="text" name="username" id="username" class="form-control {{$errors->has("username")? 'is-invalid'
+<form class="form-signin text-center" method="post" action="{{route("userLogin")}}">
+    @csrf
+    <img class="mb-4" src="https://icons.getbootstrap.com/assets/icons/cart.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+    <label for="username" class="sr-only">用户名</label>
+    <input type="text" name="username" id="username" class="form-control {{$errors->has("username")? 'is-invalid'
             : '' }}" placeholder="用户名" autofocus>
-        @if ($errors->has('username'))
+    @if ($errors->has('username'))
         <p class="invalid-feedback" role="alert">
             <strong>{{ $errors->first('username') }}</strong>
         </p>
-        @endif
-        <label for="password" class="sr-only">密码</label>
-        <input type="password" name="password" id="password" class="form-control {{$errors->has("password")? 'is-invalid' : '' }}" placeholder="密码">
-        @if ($errors->has('password'))
+    @endif
+    <label for="password" class="sr-only">密码</label>
+    <input type="password" name="password" id="password"
+           class="form-control {{$errors->has("password")? 'is-invalid' : '' }}" placeholder="密码">
+    @if ($errors->has('password'))
         <p class="invalid-feedback" role="alert">
             <strong>{{ $errors->first('password') }}</strong>
         </p>
-        @endif
-        <label for="captcha" class="sr-only">验证码</label>
-        <input type="text" id="captcha" class="form-control {{ $errors->has("captcha") ? 'is-invalid' : '' }}"
-            name="captcha" placeholder="验证码">
-        <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}"
-            onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码" alt="">
-        @if ($errors->has('captcha'))
+    @endif
+    <label for="captcha" class="sr-only">验证码</label>
+    <input type="text" id="captcha" class="form-control {{ $errors->has("captcha") ? 'is-invalid' : '' }}"
+           name="captcha" placeholder="验证码">
+    <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}"
+         onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码" alt="">
+    @if ($errors->has('captcha'))
         <p class="invalid-feedback" role="alert">
             <strong>{{ $errors->first("captcha")}}</strong>
         </p>
-        @endif
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 刘晔</p>
-    </form>
+    @endif
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 刘晔</p>
+</form>
 </body>
 
 </html>

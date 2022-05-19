@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Category;
 
 class Product extends Model
 {
     public $timestamps = false;
 
-    public function category_id()
+    public function category()
     {
-        return $this->hasOne(Category::class, "id", "category_id");
+        return $this->hasOne("App\Models\Category", "id", "category_id");
     }
 }
