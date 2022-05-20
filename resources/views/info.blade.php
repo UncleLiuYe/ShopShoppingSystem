@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
@@ -58,6 +59,7 @@
 @section("nav")
     @parent
 @endsection
+<br/>
 <div class="container" style="margin-top: 77px;">
     <div class="main">
         <div class="left">
@@ -74,7 +76,7 @@
                 <button style="width: 38px;" class="btn btn-outline-danger" onclick="decr()">-</button>
                 <br/>
                 <br/>
-                <a class="btn btn-primary" href="#">加入购物车</a>
+                <a class="btn btn-primary" href="javascript:add({{$product->id}});">加入购物车</a>
                 <a class="btn btn-primary" href="#">购买</a>
                 <br/><br/>
                 <span class="badge badge-danger">自营</span>
@@ -92,5 +94,29 @@
 @section("footer")
     @parent
 @endsection
+<script>
+    /**
+     * 加入购物车
+     */
+    function add(pid) {
+        if ($("#count").text() === "0") {
+            alert("数量不能为0!");
+        } else {
+            $.post("{{route("cart.store")}}", {
+                pid: pid,
+                num: $("#count").text()
+            }, function (data) {
+                if (data === "ok") {
+                    alert("添加到购物车!");
+                    window.location.reload();
+                } else if (data === "numlesszero") {
+                    alert("库存不足，请购买其他商品!");
+                } else if (data === "fail") {
+                    alert("网络错误!");
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>

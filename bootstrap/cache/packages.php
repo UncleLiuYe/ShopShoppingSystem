@@ -60,4 +60,15 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
+  'songshenzong/support' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Songshenzong\\Support\\StringsServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Strings' => 'Songshenzong\\Support\\StringsFacade',
+    ),
+  ),
 );

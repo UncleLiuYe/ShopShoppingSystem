@@ -25,7 +25,7 @@ class UserController extends Controller
             return redirect("login")->withErrors($validator);
         } else {
             if (request()->session()->has("admin") || request()->session()->has("user")) {
-                return "<script>alert('已经登录了！请勿重复登陆！');window.location.href='./login';</script>";
+                return "<script>alert('已经登录了！请勿重复登陆！');window.location.href='./';</script>";
             } else {
                 $userService = new UserService();
                 $user = $userService->userLogin(request()->input("username"), request()->input("password"));
@@ -46,8 +46,11 @@ class UserController extends Controller
     public function userLogout()
     {
         if (request()->session()->has("user")) {
-            request()->session()->pull("user", session("users"));
+            request()->session()->invalidate();
         }
-        return redirect("/");
+        if (request()->session()->has("admin")) {
+            request()->session()->invalidate();
+        }
+        return redirect(route("index"));
     }
 }

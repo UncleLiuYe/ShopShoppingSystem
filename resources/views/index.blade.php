@@ -24,6 +24,7 @@
     @section("nav")
         @parent
     @endsection
+    <br/>
     <div class="container" style="margin-top: 77px;">
         <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -40,7 +41,7 @@
                     @if($loop->index<4)
                         <div class="carousel-item {{$loop->index == 0 ? 'active' : ''}}">
                             <img src="/storage/images/{{$product->cover }}" class="d-block w-100" alt="..."
-                                 onclick="window.location.href='{{route('product.show',$product->id)}}'">
+                                 onclick="window.location.href='./product/show/{{$product->id}}'">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>{{$product->name}}</h5>
                             </div>
@@ -66,7 +67,7 @@
             @foreach($productlist as $product)
                 @if($loop->index<4)
                     <div class="col-3" style="margin-bottom: 30px;">
-                        <div class="card" onclick="window.location.href='{{route('product.show',[$product->id])}}'">
+                        <div class="card" onclick="window.location.href='./product/show/{{$product->id}}'">
                             <img src="/storage/images/{{$product->cover}}" class="card-img-top" alt="" width="200px"
                                  height="200px">
                             <div class="card-body" style="padding: 0.5rem;">
@@ -96,5 +97,4 @@
     @parent
 @endsection
 </body>
-
 </html>

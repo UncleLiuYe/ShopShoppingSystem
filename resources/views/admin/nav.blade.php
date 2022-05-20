@@ -1,6 +1,6 @@
 @section("nav")
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand" href="{{route("index")}}">后台管理系统</a>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm p-3 mb-5 bg-white rounded">
+        <a class="navbar-brand" href="{{route("admin.index")}}">后台管理系统</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -60,7 +60,7 @@
                     </div>
                 @endif
             </div>
-            <div class=" dropdown float-md-right">
+            <div class="my-2 my-lg-0 mr-5">
                 @if(request()->session()->has("admin"))
                     <span class="mr-3"
                           style="color: red;">管理员:{{request()->session()->get("admin")[0]->username}}</span>
