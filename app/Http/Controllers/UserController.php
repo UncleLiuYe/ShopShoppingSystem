@@ -24,21 +24,19 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect("login")->withErrors($validator);
         } else {
-            if (request()->session()->has("admin") || request()->session()->has("user")) {
-                return "<script>alert('已经登录了！请勿重复登陆！');window.location.href='./';</script>";
-            } else {
-                $userService = new UserService();
-                $user = $userService->userLogin(request()->input("username"), request()->input("password"));
-                if (!is_null($user)) {
-                    if ($user->isadmin == 1) {
-                        request()->session()->push("admin", $user);
-                        return redirect(route("admin.index"));
-                    }
-                    request()->session()->push("user", $user);
-                    return redirect("/");
-                } else {
-                    return "<script>alert('用户名或密码错误！');window.location.href='./login';</script>";
+            request()->session()->forget("user");
+            request()->session()->forget("admin");
+            $userService = new UserService();
+            $user = $userService->userLogin(request()->input("username"), request()->input("password"));
+            if (!is_null($user)) {
+                if ($user->isadmin == 1) {
+                    request()->session()->push("admin", $user);
+                    return redirect(route("admin.index"));
                 }
+                request()->session()->push("user", $user);
+                return redirect("/");
+            } else {
+                return "<script>alert('用户名或密码错误！');window.location.href='./login';</script>";
             }
         }
     }
@@ -46,10 +44,10 @@ class UserController extends Controller
     public function userLogout()
     {
         if (request()->session()->has("user")) {
-            request()->session()->invalidate();
+            request()->session()->forget("user");
         }
         if (request()->session()->has("admin")) {
-            request()->session()->invalidate();
+            request()->session()->forget("admin");
         }
         return redirect(route("index"));
     }

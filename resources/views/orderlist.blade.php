@@ -8,6 +8,11 @@
     <script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
     <title>Laravel</title>
+    <style>
+        nav ul {
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <div>
@@ -33,7 +38,7 @@
                 <th>下单时间</th>
                 <th>操作</th>
             </tr>
-            @foreach($orderlist as $order)
+            @foreach($orderlist->items() as $order)
                 <tr>
                     <td><p>{{$order->ono}}</p></td>
                     <td><p>{{$order->total_amount}}元</p></td>
@@ -78,6 +83,7 @@
         </table>
     </div>
     <br/>
+    {{$orderlist->links()}}
 </div>
 </body>
 </html>
