@@ -60,12 +60,6 @@
                             @if($order->status==1)
                                 <span style="color: blue;">已付款</span>
                             @endif
-                            @if($order->status==2)
-                                <span style="color: green;">已发货</span>
-                            @endif
-                            @if($order->status==3)
-                                <span style="color: black;">已完成</span>
-                            @endif
                         </p>
                     </td>
                     <td>{{$order->obeizhu}}</td>

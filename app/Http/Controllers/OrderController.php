@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alipay\EasySDK\Kernel\Factory;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Order;
@@ -18,7 +19,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return response()->view("orderlist", ["categorylist" => Category::all(), "orderlist" => Order::all()]);
+        $pageSize = 5;
+        $orderlist = Order::paginate($pageSize)->items();
+        foreach ($orderlist as $order) {
+            if ($order->status != 1) {
+                PayController::checkOnoStatus($order->ono);
+            }
+        }
+        return response()->view("orderlist", ["categorylist" => Category::all(), "orderlist" => Order::paginate($pageSize)]);
     }
 
     /**

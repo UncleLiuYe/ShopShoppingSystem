@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\ProductController;
+use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -40,7 +41,10 @@ Route::view("/login", "login")->name("login");
 Route::post("/userLogin", [UserController::class, "userLogin"])->name("userLogin");
 Route::get("/userLogout", [UserController::class, "userLogout"])->name("userLogout")->middleware("checklogin");
 Route::post('/create/uploadFile', [ProductController::class, "uploadFile"])->name("uploadfile")->middleware("admincheck");
-
+Route::get("/register", function () {
+    return view("register", ["categorylist" => Category::all()]);
+})->name("register");
+Route::post("/userRegister", [UserController::class, "userRegister"])->name("userRegister");
 Route::get("/returnurl", [PayController::class, "gotoPage"]);
 
 Route::post("/notifyurl", function () {

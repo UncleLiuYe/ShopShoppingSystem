@@ -45,6 +45,7 @@
                 @if(request()->session()->has("user"))
                     <span class="mr-3" style="color: red;">用户名:{{request()->session()->get("user")[0]->username}}</span>
                 @else
+                    <a style="text-decoration: none;" href="{{route("register")}}">注册</a>
                     <a style="text-decoration: none;" href="{{route("login")}}">未登录</a>
                 @endif
             </div>

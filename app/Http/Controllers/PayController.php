@@ -45,13 +45,25 @@ class PayController extends Controller
         }
     }
 
-    public function checkOnoStatus($ono): string
+    public static function checkOnoStatus($ono)
     {
         try {
             $res = Factory::payment()->common()->query($ono);
-            Log::info($res->tradeStatus);
             if ($res->code == 10000) {
-                return $res->tradeStatus;
+                if ($res->tradeStatus == "TRADE_SUCCESS") {
+                    Order::where("ono", "=", $ono)->update([
+                        "status" => 1,
+                        "alipay_trade_no" => $res->tradeNo,
+                        "update_time" => now(),
+                    ]);
+                }
+                if ($res->tradeStatus == "WAIT_BUYER_PAY") {
+                    Order::where("ono", "=", $ono)->update([
+                        "status" => 0,
+                        "alipay_trade_no" => $res->tradeNo,
+                        "update_time" => now(),
+                    ]);
+                }
             }
         } catch (\Exception $e) {
             echo "调用失败，" . $e->getMessage() . PHP_EOL;;

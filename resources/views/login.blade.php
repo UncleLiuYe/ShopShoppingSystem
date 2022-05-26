@@ -70,8 +70,7 @@
     <img class="mb-4" src="https://icons.getbootstrap.com/assets/icons/cart.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
     <label for="username" class="sr-only">用户名</label>
-    <input type="text" name="username" id="username" class="form-control {{$errors->has("username")? 'is-invalid'
-            : '' }}" placeholder="用户名" autofocus>
+    <input type="text" name="username" id="username" class="form-control {{$errors->has("username")? 'is-invalid': '' }}" placeholder="用户名" autofocus>
     @if ($errors->has('username'))
         <p class="invalid-feedback" role="alert">
             <strong>{{ $errors->first('username') }}</strong>
