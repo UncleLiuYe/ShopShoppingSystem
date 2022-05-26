@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Alipay\EasySDK\Kernel\Factory;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -20,13 +18,18 @@ class OrderController extends Controller
     public function index()
     {
         $pageSize = 5;
-        $orderlist = Order::paginate($pageSize)->items();
-        foreach ($orderlist as $order) {
-            if ($order->status != 1) {
-                PayController::checkOnoStatus($order->ono);
+        if (request()->session()->has("admin")) {
+            return response()->view("admin.orderlist", ["categorylist" => Category::all(), "orderlist" => Order::paginate($pageSize)]);
+        } else {
+            $orders = Order::where("user_id", "=", request()->session()->get("user")[0]->id)->paginate($pageSize);
+            $orderlist = $orders->items();
+            foreach ($orderlist as $order) {
+                if ($order->status != 1) {
+                    PayController::checkOnoStatus($order->ono);
+                }
             }
+            return response()->view("orderlist", ["categorylist" => Category::all(), "orderlist" => $orders]);
         }
-        return response()->view("orderlist", ["categorylist" => Category::all(), "orderlist" => Order::paginate($pageSize)]);
     }
 
     /**

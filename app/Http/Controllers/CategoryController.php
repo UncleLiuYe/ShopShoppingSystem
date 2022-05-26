@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -57,7 +58,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-
+        $productList = Product::where("category_id", "=", $id)->paginate(8);
+        return response()->view("productlist", ["productlist" => $productList, "categorylist" => Category::all(), "cartgory" => Category::find($id)]);
     }
 
     /**

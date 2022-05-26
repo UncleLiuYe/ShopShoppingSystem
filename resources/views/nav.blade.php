@@ -13,7 +13,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         @foreach($categorylist as $category)
-                            <a class="dropdown-item" href="#">{{$category->category_name}}</a>
+                            <a class="dropdown-item"
+                               href="{{route("productshow",$category->id)}}">{{$category->category_name}}</a>
                         @endforeach
                     </div>
                 </div>
@@ -36,7 +37,7 @@
                 @endif
             </div>
             <form class="form-inline my-2 my-lg-0 mr-3"
-                  action="/Shop/GoodsSearchServlet">
+                  action="{{route("productSearch")}}" method="post">
                 <input class="form-control mr-sm-2" type="search" placeholder="搜索"
                        name="keyword">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>

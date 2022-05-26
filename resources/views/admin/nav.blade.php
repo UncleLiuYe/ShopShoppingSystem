@@ -32,7 +32,7 @@
                         订单管理
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="./updateUserInfo.php">订单列表</a>
+                        <a class="dropdown-item" href="{{route("order.index")}}">订单列表</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">

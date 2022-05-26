@@ -142,6 +142,13 @@ class ProductController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input("keyword");
+        $productlist = Product::where("name", "like", "%{$keyword}%")->paginate(8);
+        return response()->view("productlist", ["categorylist" => Category::all(), "productlist" => $productlist]);
+    }
+
     public function uploadFile()
     {
         $postFile = 'upload';

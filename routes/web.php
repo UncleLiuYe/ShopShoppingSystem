@@ -24,13 +24,15 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', [ProductController::class, "indexpage"])->name("index");
 Route::get("/admin/index", [AdminController::class, "adminIndex"])->name("admin.index")->middleware("admincheck");
 
-Route::get("/product/show/{id}", [ProductController::class, "show"]);
+Route::post("/product/search", [ProductController::class, "search"])->name("productSearch");
+Route::get("/product/show/{id}", [ProductController::class, "show"])->name("productshowwithid");
 Route::resource("product", "ProductController")->middleware("admincheck");
 Route::get("/product/{id}/delete", [ProductController::class, "destroy"])->name("product.delete")->middleware("admincheck");
 
 Route::resource("cart", "CartController")->middleware("checklogin");
 Route::post("/cart/delete/{id}", [CartController::class, "destroy"])->middleware("checklogin");
 
+Route::get("/category/show/{id}", [CategoryController::class, "show"])->name("productshow");
 Route::resource("category", "CategoryController")->middleware("admincheck");
 Route::get("/category/{id}/delete", [CategoryController::class, "destroy"])->name("category.delete")->middleware("admincheck");
 
