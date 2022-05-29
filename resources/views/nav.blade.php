@@ -27,8 +27,8 @@
                             我的
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="./updateUserInfo.php">修改个人信息</a>
-                            <a class="dropdown-item" href="./updateUserPassword.php">修改登陆密码</a>
+{{--                            <a class="dropdown-item" href="./updateUserInfo.php">修改个人信息</a>--}}
+{{--                            <a class="dropdown-item" href="./updateUserPassword.php">修改登陆密码</a>--}}
                             <a class="dropdown-item" href="#"
                                onclick="let x;x=confirm('确定退出吗？');if(x){ window.location.href='{{route("userLogout")}}';
                                    }">退出登录</a>
