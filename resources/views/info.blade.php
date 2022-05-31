@@ -77,7 +77,6 @@
                 <br/>
                 <br/>
                 <a class="btn btn-primary" href="javascript:add({{$product->id}});">加入购物车</a>
-                <a class="btn btn-primary" href="#">购买</a>
                 <br/><br/>
                 <span class="badge badge-danger">自营</span>
                 <span class="badge badge-danger">厂商配送</span>
